@@ -1,6 +1,7 @@
 import logo from './assets/nourish_logo.png';
 import './App.css';
-import './css/global.css'
+import './css/global.css';
+import hitDB from './access_db';
 
 function App() {
   return (
@@ -11,7 +12,7 @@ function App() {
         <p>
           nourish
         </p>
-        <button>
+        <button onclick={hitDB()}>
           Click Me
         </button>
       </header>
