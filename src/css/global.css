@@ -1,0 +1,22 @@
+:root {
+    --background-yellow: #fffef6;
+    --green: #a8d969;
+}
+
+.body
+{
+    background-color: var(--background-yellow);
+    color: black;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.header
+{
+    color: var(--green);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(20px + 2vmin);
+}
