@@ -12,7 +12,7 @@ function App() {
         <p>
           nourish
         </p>
-        <button onclick={hitDB()}>
+        <button onClick={hitDB}>
           Click Me
         </button>
       </header>
