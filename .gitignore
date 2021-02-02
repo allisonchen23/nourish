@@ -23,5 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 
 # My ignored files
-*.txt
+data
 .eslintcache

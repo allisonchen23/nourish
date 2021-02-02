@@ -30,6 +30,7 @@ def recipe_search(api, search_word="broccoli", max_items=20):
 
 def event_search():
     x=3
+    
 if __name__ == '__main__':
     api = authenticate_twitter()
     recipe_search(api, "broccoli recipe")
