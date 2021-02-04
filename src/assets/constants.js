@@ -10,7 +10,21 @@ const FRUIT_OPTIONS = [
     {value: 'ruby red grapefruit', label: "ruby red grapefruit"},
 ];
 
+const API_KEY = 'pXggN0NWEeqL49apXBpvix2U0vAy4kKcGtJhi2Py';
+const FOOD_SEARCH_BODY = {
+	query: "banana blueberries broccoli",
+	dataType: [
+	  "Foundation",
+	  "SR Legacy"
+	],
+	pageSize: 25,
+	pageNumber: 1,
+	// sortBy: "foodNutrients.nutrientName.keyword",
+  };
+
 export { 
     COLORS,
-    FRUIT_OPTIONS
+    FRUIT_OPTIONS,
+    API_KEY,
+    FOOD_SEARCH_BODY
 }

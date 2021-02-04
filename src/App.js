@@ -2,7 +2,7 @@ import { Component } from 'react';
 import logo from './assets/nourish_logo.png';
 import './App.css';
 import './css/global.css';
-import hitDB from './access_db';
+import query from './access_db';
 import Questionnaire from './questionnaire';
 
 class Home extends Component{
@@ -16,7 +16,7 @@ class Home extends Component{
             <p>
               nourish
             </p>
-            <button onClick={hitDB}>
+            <button onClick={() => {query("pumpkin")}}>
               Click Me
             </button>
             <p>

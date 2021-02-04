@@ -17,14 +17,15 @@ const foodSearchBody = {
     - "dataType.keyword"
     - ""
 */
-async function hitDB(query_string) {
+async function query(query_string="") {
   // let data = foodSearchBody;
-  // data["query"] = query_string;
+  foodSearchBody["query"] = query_string;
   // console.log(data);
   let xhr = new XMLHttpRequest();
-  xhr.addEventListener('load', () => {
+  let results = xhr.addEventListener('load', () => {
       let results = JSON.parse(xhr.responseText);
       console.log(results);
+      return results;
   })
   let searchURL = "https://api.nal.usda.gov/fdc/v1/foods/search?api_key=" + API_KEY;
   xhr.open('POST', searchURL);
@@ -39,6 +40,7 @@ async function hitDB(query_string) {
   // data = {
   //   query: 'ice cream'
   // }
+  return results;
 }
 
-export default hitDB;
+export default query;
