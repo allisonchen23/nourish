@@ -92,7 +92,7 @@ class Questionnaire extends Component {
 	}
 	render() {
 		return (
-			<div>
+			<div className="body">
 				<div className='section'>
 					<header className="header">
 						Basic information:
@@ -107,9 +107,12 @@ class Questionnaire extends Component {
 						Which of the following do you eat at least once a week?
 					</p>
 					<Select isMulti options={FRUIT_OPTIONS} onChange={this.onMultiSelectChange} />
-					<button onClick={() => {this.search_DB()}}>
-						Submit
-					</button>
+					<div className="center_button">
+						<button className="button" onClick={() => {this.search_DB()}}>
+							Submit
+						</button>
+					</div>
+					
 					<header className="header">
 						Results
 					</header>

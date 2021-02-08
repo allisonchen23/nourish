@@ -2,8 +2,7 @@ import { Component } from 'react';
 import logo from './assets/nourish_logo.png';
 import './App.css';
 import './css/global.css';
-import query from './access_db';
-import Questionnaire from './questionnaire';
+import { Link } from 'react-router-dom';
 
 class Home extends Component{
   render () {
@@ -16,15 +15,18 @@ class Home extends Component{
             <p>
               nourish
             </p>
-            <button onClick={() => {query("pumpkin")}}>
-              Click Me
-            </button>
+            <Link to="/questionnaire">
+              <button className="button">
+                Let's get started!
+              </button>
+            </Link>
+            
             <p>
               Scroll to begin!
             </p>
           </header>
         </div>
-        <Questionnaire />
+        {/* <Questionnaire /> */}
       </div>
     );
   }

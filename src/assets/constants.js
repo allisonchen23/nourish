@@ -7,7 +7,7 @@ const FRUIT_OPTIONS = [
     {value: 'bananas', label: "Bananas"},
     {value: 'blueberries', label: "blueberries"},
     {value: 'kiwis', label: "Kiwis"},
-    {value: 'ruby red grapefruit', label: "ruby red grapefruit"},
+    {value: 'grapefruit', label: "Grapefruit"},
 ];
 
 const API_KEY = 'pXggN0NWEeqL49apXBpvix2U0vAy4kKcGtJhi2Py';
