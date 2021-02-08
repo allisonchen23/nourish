@@ -10,7 +10,7 @@ const FRUIT_OPTIONS = [
 	{value: 'apples', label: "Apples"},
 	{value: 'bananas', label: "Bananas"},
 	{value: 'blueberries', label: "Blueberries"},
-	{value: 'kiwis', label: "Kiwis"},
+	{value: 'strawberries', label: "Strawberries"},
 	{value: 'ruby red grapefruit', label: "Ruby red grapefruit"},
 ];
 
@@ -27,7 +27,7 @@ class Questionnaire extends Component {
 			location: "",
 			fruits: [],
 			vegetables: {},
-			best_match: null,
+			raw_results: null,
 		}
 	}
 
@@ -41,9 +41,36 @@ class Questionnaire extends Component {
 		this.setState({fruits: cur_fruits})
 	}
 
+	findFood(food_array) {
+		let raw_foods = [];
+		for (let item of food_array) {
+			if (item.scientificName) {
+				raw_foods.push(item);
+			}
+		}
+		return raw_foods;
+	}
+	renderRawFoods(raw_foods=null) {
+		if (raw_foods == null) {
+			return(
+				<p>No Results</p>
+			)
+		}
+		else {
+			let items = this.state.raw_results.map((item) => {
+				return <li>{item.description}</li>
+			})
+			return(
+				<ul>
+					{items}
+				</ul>
+			)
+		}
+
+	}
 	async search_DB() {
 		let fruits = this.state.fruits;
-		let results;
+		let query_raw_matches = [];
 		fruits.forEach(async (item) => {
 			let data = FOOD_SEARCH_BODY;
 			data["query"] = item;
@@ -51,8 +78,10 @@ class Questionnaire extends Component {
 			xhr.addEventListener('load', () => {
 				let results = JSON.parse(xhr.responseText);
 				console.log(results);
-				let best_match = results.foods[0]
-				console.log(best_match) //check for no scientific name!!
+				let raw_matches = this.findFood(results.foods);
+				query_raw_matches = query_raw_matches.concat(raw_matches);
+				console.log(query_raw_matches) //check for no scientific name!!
+				this.setState({raw_results: query_raw_matches});
 			})
 			let searchURL = "https://api.nal.usda.gov/fdc/v1/foods/search?api_key=" + API_KEY;
 			xhr.open('POST', searchURL);
@@ -81,6 +110,12 @@ class Questionnaire extends Component {
 					<button onClick={() => {this.search_DB()}}>
 						Submit
 					</button>
+					<header className="header">
+						Results
+					</header>
+					<div>
+						{this.renderRawFoods(this.state.raw_results)}
+					</div>
 				</div>
 			</div>
 		)

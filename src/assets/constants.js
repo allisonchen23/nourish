@@ -17,9 +17,8 @@ const FOOD_SEARCH_BODY = {
 	  "Foundation",
 	  "SR Legacy"
 	],
-	pageSize: 25,
-	pageNumber: 1,
-	// sortBy: "foodNutrients.nutrientName.keyword",
+	pageSize: 100,
+	sortBy: "fdcId",
   };
 
 export { 
