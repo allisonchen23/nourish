@@ -20,10 +20,6 @@ class Home extends Component{
                 Let's get started!
               </button>
             </Link>
-            
-            <p>
-              Scroll to begin!
-            </p>
           </header>
         </div>
         {/* <Questionnaire /> */}

@@ -11,7 +11,7 @@ const FRUIT_OPTIONS = [
 	{value: 'bananas', label: "Bananas"},
 	{value: 'blueberries', label: "Blueberries"},
 	{value: 'strawberries', label: "Strawberries"},
-	{value: 'ruby red grapefruit', label: "Ruby red grapefruit"},
+	{value: 'grapefruit', label: "Grapefruit"},
 ];
 
 

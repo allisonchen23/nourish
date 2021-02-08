@@ -8,6 +8,10 @@
     background-color: var(--background-yellow);
     color: black;
     font-family: 'Open Sans', sans-serif;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
 }
 
 .header
@@ -25,6 +29,8 @@
 {
     padding: 20px;
     min-height: 100vh;
+    min-width: 500px;
+    max-width: 1000px;
 }
 
 .center_button
