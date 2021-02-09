@@ -10,6 +10,11 @@ const FRUIT_OPTIONS = [
     {value: 'grapefruit', label: "Grapefruit"},
 ];
 
+const CATEGORY_ENUMS = {
+  "fruits": 0,
+  "vegetables": 1,
+  "protein": 2,
+}
 const API_KEY = 'pXggN0NWEeqL49apXBpvix2U0vAy4kKcGtJhi2Py';
 const FOOD_SEARCH_BODY = {
 	query: "banana blueberries broccoli",
@@ -25,5 +30,6 @@ export {
     COLORS,
     FRUIT_OPTIONS,
     API_KEY,
-    FOOD_SEARCH_BODY
+    FOOD_SEARCH_BODY,
+    CATEGORY_ENUMS
 }
