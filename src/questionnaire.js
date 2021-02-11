@@ -2,6 +2,7 @@ import { Component } from 'react';
 import Select from 'react-select'
 import './css/global.css';
 import {API_KEY, FOOD_SEARCH_BODY, CATEGORY_ENUMS} from './assets/constants'
+// import create_db from './create_db';
 import query from './access_db';
 
 // import FRUIT_OPTIONS from './assets/constants'
@@ -91,7 +92,7 @@ class Questionnaire extends Component {
 		}
 		else {
 			let items = this.state.raw_results.map((item) => {
-				return <li>{item.description}</li>
+				return <li key={item.description}>{item.description}</li>
 			})
 			return(
 				<ul>
@@ -169,6 +170,11 @@ class Questionnaire extends Component {
 						</button>
 					</div>
 
+					<div className="center_button">
+						<button className="button" onClick={() => {query("plantain")}}>
+							Make Query
+						</button>
+					</div>
 				</div>
 
 				{/* Results */}

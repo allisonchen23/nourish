@@ -25,3 +25,9 @@ yarn-error.log*
 # My ignored files
 data
 .eslintcache
+*.json
+!package.json
+!package-lock.json
+!public/manifest.json
+logfile
+nourish_db/

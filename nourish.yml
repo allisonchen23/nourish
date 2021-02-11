@@ -7,5 +7,8 @@ dependencies:
  - matplotlib=3.2 
  - nodejs
  - pip
+ - PostgreSQL
  - pip:
    - tweepy
+   - requests
+   - psycopg2
