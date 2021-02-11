@@ -1,13 +1,22 @@
 import requests
 import json
+import psycopg2
+
+# Constants for accessing FDC API
 API_KEY = 'pXggN0NWEeqL49apXBpvix2U0vAy4kKcGtJhi2Py'
-
 URL = 'https://api.nal.usda.gov/fdc/v1/foods/search?api_key={}'.format(API_KEY)
-
 DATA = {
     'query': "raw",
     'pageSize': 6000
 }
+
+# Constants for accessing PostgreSQL DB
+DATABASE = "nourish_db"
+USER = "allison"
+PASSWORD = "nourish"
+HOST = "127.0.0.1"
+PORT = "5432"
+
 def create_db():
     print(URL)
     query = requests.post(URL, json=DATA).json()
@@ -37,8 +46,8 @@ def clean_nutrients(verbose=True):
             for nutrient in nutrients_cleaned:
                 nutrient_id = nutrient['nutrientId']
                 nutrient_name = nutrient['nutrientName']
-                nutrient_unit = nutrient
-                nutrient_id_name_mapping[nutrient_id] = nutrient_name
+                nutrient_unit = nutrient['unitName']
+                nutrient_id_name_mapping[nutrient_id] = "{} ({})".format(nutrient_name, nutrient_unit)
             
             if verbose and idx % 50 == 0:
                 print("Processed {}/{} foods".format(idx+1, len(data)))
@@ -48,8 +57,42 @@ def clean_nutrients(verbose=True):
         with open('NutrientIDNameMapping.json', 'w') as map_f:
             json.dump(nutrient_id_name_mapping, map_f, indent=2)
 
-def build_postgres_db():
+def connect_to_postgres():
+    connection = psycopg2.connect(database=DATABASE,
+        user=USER,
+        password=PASSWORD,
+        host=HOST,
+        port=PORT)
+    cursor = connection.cursor()
+    return (connection, cursor)
+
+def build_postgres_table(table_name="nutrients"):
+    connection, cursor = connect_to_postgres()
+    cursor.execute('''CREATE TABLE nutrients (
+        FOOD VARCHAR(50) PRIMARY KEY NOT NULL,
+        n1104 float,
+        n1005 float);''')
+    connection.commit()
+    connection.close()
+
+def add_columns(nutrient_id_map, table_name="nutrients"):
+    str = ''''''
+    for nutrient_id in nutrient_id_map.keys():
+        str += '''ADD COLUMN IF NOT EXISTS n{} float, '''.format(nutrient_id)
+    str = str[:-2] + ';'
+    print(str)
+
+    connection, cursor = connect_to_postgres()
+    cursor.execute('''ALTER TABLE {} {}'''.format(table_name, str))
+    connection.commit()
+    connection.close()
+
 
 if __name__ == '__main__':
     # create_db()
     # clean_nutrients()
+
+    # build_postgres_table()
+    with open('NutrientIDNameMapping.json') as f:
+        mapping = json.load(f)
+        add_columns(mapping)
