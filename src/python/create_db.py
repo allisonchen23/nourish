@@ -87,12 +87,35 @@ def add_columns(nutrient_id_map, table_name="nutrients"):
     connection.commit()
     connection.close()
 
+def insert_food(food_item, table_name="nutrients"):
+    food_name = food_item['description']
+    nutrients = {}
+    headers_str = '{}(food, '.format(table_name)
+    values_str = '({}'.format(food_name)
+    for nutrient in food_item['foodNutrients']:
+        id_num = nutrient['nutrientId']
+        amount = nutrient['value']
+        # nutrients['n{}'.format(id_num)]
+        headers_str += 'n{}, '.format(id_num)
+        values_str += '{}, '.format(amount)
+    headers_str = headers_str[:-2] + ")"
+    values_str = values_str[:-2] + ")"
+    print(headers_str)
+    print(values_str)
 
+    connection,  cursor = connect_to_postgres()
+    cursor.execute('INSERT INTO {} VALUES {};'.format(headers_str, values_str))
+    connection.commit()
+    connection.close()
 if __name__ == '__main__':
     # create_db()
     # clean_nutrients()
 
     # build_postgres_table()
-    with open('NutrientIDNameMapping.json') as f:
-        mapping = json.load(f)
-        add_columns(mapping)
+    # with open('NutrientIDNameMapping.json') as f:
+    #     mapping = json.load(f)
+    #     add_columns(mapping)
+
+    with open('CleanedFoodDB.json') as f:
+        json_db = json.load(f)
+        insert_food(json_db[0])
