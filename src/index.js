@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import './index.css';
 import App from './App';
 import Questionnaire from './questionnaire';
+import Twitter from './twitter';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
@@ -12,6 +13,7 @@ ReactDOM.render(
     <BrowserRouter>
       <Switch>
         <Route path="/questionnaire" component={Questionnaire} />
+        <Route path="/twitter" component={Twitter} />
         <Route path="/" component={App} />
       </Switch>
     </BrowserRouter>

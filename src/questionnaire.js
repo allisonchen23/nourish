@@ -1,9 +1,10 @@
 import { Component } from 'react';
 import Select from 'react-select'
 import './css/global.css';
-import {API_KEY, FOOD_SEARCH_BODY, CATEGORY_ENUMS} from './assets/constants'
-// import create_db from './create_db';
-import query from './access_db';
+import {API_KEY, FOOD_SEARCH_BODY, CATEGORY_ENUMS, BACKEND_URL} from './assets/constants'
+import recs from './final_recs'
+import { Link } from 'react-router-dom';
+const fs = require('fs')
 
 // import FRUIT_OPTIONS from './assets/constants'
 
@@ -50,6 +51,7 @@ class Questionnaire extends Component {
 			vegetables: [],
 			protein: [],
 			raw_results: null,
+			recs: null,
 		}
 	}
 
@@ -102,6 +104,42 @@ class Questionnaire extends Component {
 		}
 
 	}
+
+	loadRecs() {
+		console.log(recs)
+		this.setState({recs: recs})
+	}
+	renderRecs() {
+		if (this.state.recs == null) {
+			return(
+				<p>No Results</p>
+			)
+		}
+		else {
+			let items = this.state.recs.map((item) => {
+				return <li key={item}>{item}</li>
+			})
+			return(
+				<>
+					<p>
+						Based on the input provided, it would be beneficial to consume more of the following: 
+					</p>
+					<ul>
+						{items}
+					</ul>
+					<Link to="/twitter">
+						<div className="center_button">
+							<button className="button">
+								Well... what's next?!
+							</button>
+						</div>
+					</Link>
+				</>
+			)
+		}
+
+	}
+
 	async search_DB() {
 		let items = this.state.fruits.concat(this.state.vegetables);
 		items = items.concat(this.state.protein);
@@ -125,12 +163,52 @@ class Questionnaire extends Component {
 			xhr.send(JSON.stringify(data));
 		})
 	}
+
 	render() {
 		return (
 			<div className="body">
 				<div className='section'>
 					<header className="header">
 						Basic information:
+					</header>
+					<form className="form">
+						<label className="form_item">
+							First Name: 
+							<input type="text" name="first name" />
+						</label>
+						<br/>
+						<label className="form_item">
+							Last Name: 
+							<input type="text" name="last name" />
+						</label>
+						<br/>
+						<label className="form_item">
+							Sex: 
+							<select>
+								<option>Male</option>
+								<option>Female</option>
+								<option>Prefer not to say</option>
+							</select>
+						</label>
+						<br/>
+						<label className="form_item">
+							Weight: 
+							<input type="text" name="weight" />
+							pounds
+						</label>
+						<br/>
+						<label className="form_item">
+							Height: 
+							<input type="text" name="height(ft)" />
+							feet
+							<input type="text" name="height(in)" />
+							inches
+						</label>
+						<br/>
+						{/* <input className="form_item" type="submit" value="Submit" className="center_button"/> */}
+					</form>
+					<header className="header">
+						Keep scrolling to continue!
 					</header>
 				</div>
 
@@ -169,33 +247,21 @@ class Questionnaire extends Component {
 							Submit
 						</button>
 					</div>
-
-					<div className="center_button">
-						<button className="button" onClick={() => {query("plantain")}}>
-							Make Query
-						</button>
-					</div>
 				</div>
 
 				{/* Results */}
 				<div className='section'>
-					{/* <header className="header">
-						Vegetable Consumption:
-					</header>
-					<p>
-						Which of the following do you eat at least once a week?
-					</p>
-					<Select isMulti options={VEGE_OPTIONS} onChange={(opt) => this.onMultiSelectChange(opt, CATEGORY_ENUMS.vegetables)} />
-					<div className="center_button">
-						<button className="button" onClick={() => {this.search_DB(CATEGORY_ENUMS.vegetables)}}>
-							Submit
-						</button>
-					</div> */}
 					<header className="header">
 						Results
 					</header>
 					<div>
-						{this.renderRawFoods(this.state.raw_results)}
+						<div className="center_button">
+							{/* <button className="button" onClick={() => {query("plantain")}}> */}
+							<button className="button" onClick={() => {this.loadRecs()}}>
+								Render Results
+							</button>
+						</div>
+						{this.renderRecs(this.state.raw_results)}
 					</div>
 				</div>
 			</div>

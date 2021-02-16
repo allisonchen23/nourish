@@ -22,7 +22,6 @@ class Home extends Component{
             </Link>
           </header>
         </div>
-        {/* <Questionnaire /> */}
       </div>
     );
   }

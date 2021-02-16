@@ -34,6 +34,19 @@
     max-width: 1000px;
 }
 
+.form 
+{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.form_items
+{
+    padding: 10px;
+}
 .center_button
 {
     display: flex;

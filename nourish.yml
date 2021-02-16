@@ -12,3 +12,7 @@ dependencies:
    - tweepy
    - requests
    - psycopg2
+   - argparse
+   - Flask
+   - flake8
+   - pylint

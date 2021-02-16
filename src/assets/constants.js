@@ -26,10 +26,13 @@ const FOOD_SEARCH_BODY = {
 	sortBy: "fdcId",
   };
 
+const BACKEND_URL = 'http://127.0.0.1:5000'
+
 export { 
     COLORS,
     FRUIT_OPTIONS,
     API_KEY,
     FOOD_SEARCH_BODY,
-    CATEGORY_ENUMS
+    CATEGORY_ENUMS,
+    BACKEND_URL
 }
