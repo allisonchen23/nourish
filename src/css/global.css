@@ -60,3 +60,18 @@
     justify-content: center;
     align-items: center;
 }
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-gap: 12px;
+}
+
+.grid_item {
+    min-height: 200px;
+    /* background-color: #eee; */
+}
+
+.tweet {
+    max-height: 200px;
+}
