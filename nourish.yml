@@ -16,3 +16,6 @@ dependencies:
    - Flask
    - flake8
    - pylint
+   - tweet-preprocessor
+   - nltk
+
