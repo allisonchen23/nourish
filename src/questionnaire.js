@@ -86,24 +86,24 @@ class Questionnaire extends Component {
 		return raw_foods;
 	}
 
-	renderRawFoods(raw_foods=null) {
-		if (raw_foods == null) {
-			return(
-				<p>No Results</p>
-			)
-		}
-		else {
-			let items = this.state.raw_results.map((item) => {
-				return <li key={item.description}>{item.description}</li>
-			})
-			return(
-				<ul>
-					{items}
-				</ul>
-			)
-		}
+	// renderRawFoods(raw_foods=null) {
+	// 	if (raw_foods == null) {
+	// 		return(
+	// 			<p>No Results</p>
+	// 		)
+	// 	}
+	// 	else {
+	// 		let items = this.state.raw_results.map((item) => {
+	// 			return <li key={item.description}>{item.description}</li>
+	// 		})
+	// 		return(
+	// 			<ul>
+	// 				{items}
+	// 			</ul>
+	// 		)
+	// 	}
 
-	}
+	// }
 
 	loadRecs() {
 		console.log(recs)
@@ -164,6 +164,9 @@ class Questionnaire extends Component {
 		})
 	}
 
+	async obtainRecs() {
+		
+	}
 	render() {
 		return (
 			<div className="body">
