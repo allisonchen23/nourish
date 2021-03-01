@@ -165,7 +165,37 @@ class Questionnaire extends Component {
 	}
 
 	async obtainRecs() {
-		
+		let xhr = new XMLHttpRequest();
+		let data = {
+			action: "recommendation",
+			foods: ["bananas", "spinach"]
+		}
+		xhr.addEventListener('load', () => {
+			console.log(xhr.responseText)
+			let results = JSON.parse(xhr.responseText);
+			console.log(results);
+
+		});
+		let searchURL = "http://localhost:5000";
+		xhr.open('POST', searchURL);
+
+		xhr.setRequestHeader("Content-Type", "application/json");    
+		xhr.send(JSON.stringify(data));
+		// const requestOptions = {
+		// 	method: 'POST',
+		// 	headers: { 'Content-Type': 'application/json' },
+		// 	body: JSON.stringify({
+		// 		action: "recommendation",
+		// 		foods: ["bananas", "spinach"]
+		// 	}),
+		// };
+		// fetch('http://localhost:5000', requestOptions)
+		// .then(response => {
+		// 	console.log(response.json());
+		// })
+		// const response = await fetch('http://localhost:5000', requestOptions);
+		// const response_data = await response.json();
+		// console.log(response_data)
 	}
 	render() {
 		return (
@@ -248,6 +278,9 @@ class Questionnaire extends Component {
 					<div className="center_button">
 						<button className="button" onClick={() => {this.search_DB()}}>
 							Submit
+						</button>
+						<button className="button" onClick={() => {this.obtainRecs()}}>
+							Flask
 						</button>
 					</div>
 				</div>

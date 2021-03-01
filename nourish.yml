@@ -19,3 +19,4 @@ dependencies:
    - tweet-preprocessor
    - nltk
    - sklearn
+   - flask_cors
