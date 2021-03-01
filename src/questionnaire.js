@@ -50,8 +50,8 @@ class Questionnaire extends Component {
 			fruits: [],
 			vegetables: [],
 			protein: [],
-			raw_results: null,
-			recs: null,
+			foods_eaten: null,
+			recs: null,//["Tomatoes", "Winged beans", "Nuts"],
 		}
 	}
 
@@ -93,7 +93,7 @@ class Questionnaire extends Component {
 	// 		)
 	// 	}
 	// 	else {
-	// 		let items = this.state.raw_results.map((item) => {
+	// 		let items = this.state.foods_eaten.map((item) => {
 	// 			return <li key={item.description}>{item.description}</li>
 	// 		})
 	// 		return(
@@ -105,18 +105,20 @@ class Questionnaire extends Component {
 
 	// }
 
-	loadRecs() {
-		console.log(recs)
-		this.setState({recs: recs})
-	}
+	// loadRecs() {
+	// 	console.log(recs)
+	// 	this.setState({recs: recs})
+	// }
 	renderRecs() {
-		if (this.state.recs == null) {
+		let recs = this.state.recs;
+		if (recs == null) {
 			return(
 				<p>No Results</p>
 			)
 		}
+		
 		else {
-			let items = this.state.recs.map((item) => {
+			let items = recs.map((item) => {
 				return <li key={item}>{item}</li>
 			})
 			return(
@@ -127,7 +129,8 @@ class Questionnaire extends Component {
 					<ul>
 						{items}
 					</ul>
-					<Link to="/twitter">
+					<Link to={{pathname: "/twitter",
+							   data: this.state.recs}}>
 						<div className="center_button">
 							<button className="button">
 								Well... what's next?!
@@ -154,7 +157,7 @@ class Questionnaire extends Component {
 				let raw_matches = this.findFood(results.foods, item);
 				query_raw_matches = query_raw_matches.concat(raw_matches);
 				console.log(query_raw_matches) //check for no scientific name!!
-				this.setState({raw_results: query_raw_matches});
+				this.setState({foods_eaten: query_raw_matches});
 			})
 			let searchURL = "https://api.nal.usda.gov/fdc/v1/foods/search?api_key=" + API_KEY;
 			xhr.open('POST', searchURL);
@@ -165,20 +168,33 @@ class Questionnaire extends Component {
 	}
 
 	async obtainRecs() {
+		let foods_eaten = this.state.foods_eaten;
+		if (foods_eaten == null) {
+			return;
+		}
+		let foods_eaten_arr = new Set();
+		for (let idx in foods_eaten) {
+			console.log(foods_eaten[idx]['description'])
+			foods_eaten_arr.add(foods_eaten[idx]['description'])
+		}
+		foods_eaten_arr = Array.from(foods_eaten_arr);
+		console.log(foods_eaten_arr)
 		let xhr = new XMLHttpRequest();
 		let data = {
 			action: "recommendation",
-			foods: ["bananas", "spinach"]
+			foods: foods_eaten_arr
 		}
+		console.log(data)
 		xhr.addEventListener('load', () => {
 			console.log(xhr.responseText)
 			let results = JSON.parse(xhr.responseText);
-			console.log(results);
+			let recs = Array.from(new Set(results));
+			this.setState({recs: recs});
 
 		});
 		let searchURL = "http://localhost:5000";
 		xhr.open('POST', searchURL);
-
+		console.log("hitting flask api with: " + data)
 		xhr.setRequestHeader("Content-Type", "application/json");    
 		xhr.send(JSON.stringify(data));
 		// const requestOptions = {
@@ -293,11 +309,11 @@ class Questionnaire extends Component {
 					<div>
 						<div className="center_button">
 							{/* <button className="button" onClick={() => {query("plantain")}}> */}
-							<button className="button" onClick={() => {this.loadRecs()}}>
+							<button className="button" onClick={() => {this.obtainRecs()}}>
 								Render Results
 							</button>
 						</div>
-						{this.renderRecs(this.state.raw_results)}
+						{this.renderRecs(this.state.foods_eaten)}
 					</div>
 				</div>
 			</div>
