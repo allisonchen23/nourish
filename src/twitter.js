@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import logo from './assets/nourish_logo.png';
 import { TwitterTweetEmbed } from 'react-twitter-embed';
+import Button from 'react-bootstrap/Button';
 
 class Twitter extends Component{
   constructor() {
@@ -36,10 +37,15 @@ class Twitter extends Component{
     if (this.state.tweet_ids == null) {
       return (
         <div className="center_button">
-          <button className="button" onClick={() => {this.loadTweetIDs(data)}}>
-            Search Twitter!
-          </button>
-        </div>
+						<Button className="button" variant='outline-secondary' onClick={() => {this.loadTweetIDs(data)}}>
+							<p className="button_text">Search Twitter for recipes!</p>
+						</Button>{' '}
+						</div>
+        // <div className="center_button">
+        //   <button className="button" onClick={() => {this.loadTweetIDs(data)}}>
+        //     Search Twitter!
+        //   </button>
+        // </div>
       )
     }
     else {

@@ -114,7 +114,7 @@ class Questionnaire extends Component {
 							   data: this.state.recs}}>
 						<div className="center_button">
 						<Button className="button" variant='outline-secondary'>
-							<p className="button_text">Take me to Twitter!</p>
+							<p className="button_text">What's Next?</p>
 						</Button>{' '}
 						</div>
 					</Link>
