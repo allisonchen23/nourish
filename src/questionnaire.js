@@ -5,8 +5,10 @@ import './css/form.css';
 import {API_KEY, FOOD_SEARCH_BODY, CATEGORY_ENUMS, BACKEND_URL} from './assets/constants'
 import recs from './final_recs'
 import { Link } from 'react-router-dom';
-import Form from 'react-bootstrap/Form'
-const fs = require('fs')
+import Form from 'react-bootstrap/Form';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 // import FRUIT_OPTIONS from './assets/constants'
 
@@ -111,9 +113,9 @@ class Questionnaire extends Component {
 					<Link to={{pathname: "/twitter",
 							   data: this.state.recs}}>
 						<div className="center_button">
-							<button className="button">
-								Take me to Twitter!
-							</button>
+						<Button className="button" variant='outline-secondary'>
+							<p className="button_text">Take me to Twitter!</p>
+						</Button>{' '}
 						</div>
 					</Link>
 				</>
@@ -137,6 +139,7 @@ class Questionnaire extends Component {
 				query_raw_matches = query_raw_matches.concat(raw_matches);
 				console.log(query_raw_matches) //check for no scientific name!!
 				this.obtainRecs(query_raw_matches);
+				document.getElementById('results').scrollIntoView();
 				this.setState({foods_eaten: query_raw_matches});
 			})
 			let searchURL = "https://api.nal.usda.gov/fdc/v1/foods/search?api_key=" + API_KEY;
@@ -181,50 +184,58 @@ class Questionnaire extends Component {
 
 	renderForm() {
 		return(
-			<form className="form">
-				<label className="form_item">
-					First Name: 
-					<input className="form_input" type="text" name="first name" />
-					Last Name: 
-					<input className="form_input" type="text" name="last name" />
-				</label>
+			<>
+				<Form>
+					<Form.Group controlId="name">
+						<Form.Label>Name</Form.Label>
+						<Form.Row>
+							<Col>
+								<Form.Control type="text" placeholder="First name" />
+							</Col>
+							<Col>
+							<Form.Control type="text" placeholder="Last name" />
+							</Col>
+						</Form.Row>
+					</Form.Group>
+					
+
+					<Form.Group controlId="sex">
+						<Form.Label>Sex</Form.Label>
+						<Form.Control as="select">
+							<option>Sex</option>
+							<option>Male</option>
+							<option>Female</option>
+							<option>Prefer not to say</option>
+						</Form.Control>
+					</Form.Group>
+					
+					<Form.Group controlId="weight">
+						<Form.Label>Weight</Form.Label>
+						<Form.Control type="text" placeholder="pounds"/>
+					</Form.Group>
+					<Form.Group controlId="height">
+						<Form.Label>Height</Form.Label>
+						<Form.Row>
+							<Col>
+								<Form.Control type="text" placeholder="feet"/>
+							</Col>
+							<Col>
+								<Form.Control type="text" placeholder="inches"/>
+							</Col>
+						</Form.Row>
+					</Form.Group>
+				</Form>
 				<br/>
-				<label className="form_item">
-					Sex: 
-					<select className="form_input">
-						<option>Male</option>
-						<option>Female</option>
-						<option>Prefer not to say</option>
-					</select>
-				</label>
-				<br/>
-				<label className="form_item">
-					Weight: 
-					<input className="form_input" type="text" name="weight" />
-					pounds
-				</label>
-				<br/>
-				<label className="form_item">
-					Height: 
-					<input type="text" className="form_input" name="height(ft)" />
-					feet
-					<input type="text" className="form_input" name="height(in)" />
-					inches
-				</label>
-				<br/>
-				<a href='#consumption'>
-					<button className="button">
-						Continue
-					</button>
-				</a>
-			</form>
-			
-			// <Form>
-			// 	<Form.Group controlId="firstName">
-			// 		<Form.Label>First name</Form.Label>
-			// 		<Form.Control type="first name" placeholder="First Name" />
-			// 	</Form.Group>
-			// </Form>
+				<div className="center_button">
+					<a href='#consumption'>
+						<Button variant='outline-secondary'>
+							<p className="button_text">Continue</p>
+						</Button>{' '}
+					</a>
+				</div>
+			</>
+				
+				
 		)
 	}
 	render() {
@@ -261,12 +272,11 @@ class Questionnaire extends Component {
 					<Select isMulti options={VEGE_OPTIONS} onChange={(opt) => this.onMultiSelectChange(opt, CATEGORY_ENUMS.vegetables)} />
 					
 					{/* Submit button */}
+					<br/>
 					<div className="center_button">
-						<a href="#results">
-							<button className="button" onClick={() => {this.search_DB()}}>
-								Submit
-							</button>
-						</a>
+						<Button className="button" variant='outline-secondary' onClick={() => {this.search_DB()}}>
+							<p className="button_text">Submit</p>
+						</Button>{' '}
 					</div>
 				</div>
 

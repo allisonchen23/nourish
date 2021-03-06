@@ -1,6 +1,6 @@
 :root {
     --background-yellow: #fffef6;
-    --green: #a8d969;
+    --nourish_green: #a8d969;
 }
 html 
 {
@@ -20,7 +20,7 @@ html
 
 .header
 {
-    color: var(--green);
+    color: var(--nourish_green);
     /* min-height: 100vh; */
     margin-top: 30px;
     display: flex;
@@ -55,11 +55,18 @@ html
     align-items: center;
     justify-content: center;
 }
-.button {
+
+.custom_button {
     margin: 20px;
     padding: 10px;
     justify-content: center;
     align-items: center;
+}
+.button_text {
+    margin: 0px;
+    padding: 0px;
+    color: var(--nourish_green);
+    font-weight: bold;
 }
 
 .grid {
