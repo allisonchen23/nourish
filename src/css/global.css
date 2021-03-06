@@ -2,7 +2,11 @@
     --background-yellow: #fffef6;
     --green: #a8d969;
 }
+html 
+{
+    scroll-behavior: smooth;
 
+}
 .body
 {
     background-color: var(--background-yellow);
@@ -43,10 +47,7 @@
     margin-top: 20px;
 }
 
-.form_items
-{
-    padding: 10px;
-}
+
 .center_button
 {
     display: flex;

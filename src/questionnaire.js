@@ -1,9 +1,11 @@
 import { Component } from 'react';
 import Select from 'react-select'
 import './css/global.css';
+import './css/form.css';
 import {API_KEY, FOOD_SEARCH_BODY, CATEGORY_ENUMS, BACKEND_URL} from './assets/constants'
 import recs from './final_recs'
 import { Link } from 'react-router-dom';
+import Form from 'react-bootstrap/Form'
 const fs = require('fs')
 
 // import FRUIT_OPTIONS from './assets/constants'
@@ -86,29 +88,6 @@ class Questionnaire extends Component {
 		return raw_foods;
 	}
 
-	// renderRawFoods(raw_foods=null) {
-	// 	if (raw_foods == null) {
-	// 		return(
-	// 			<p>No Results</p>
-	// 		)
-	// 	}
-	// 	else {
-	// 		let items = this.state.foods_eaten.map((item) => {
-	// 			return <li key={item.description}>{item.description}</li>
-	// 		})
-	// 		return(
-	// 			<ul>
-	// 				{items}
-	// 			</ul>
-	// 		)
-	// 	}
-
-	// }
-
-	// loadRecs() {
-	// 	console.log(recs)
-	// 	this.setState({recs: recs})
-	// }
 	renderRecs() {
 		let recs = this.state.recs;
 		if (recs == null) {
@@ -133,7 +112,7 @@ class Questionnaire extends Component {
 							   data: this.state.recs}}>
 						<div className="center_button">
 							<button className="button">
-								Well... what's next?!
+								Take me to Twitter!
 							</button>
 						</div>
 					</Link>
@@ -157,6 +136,7 @@ class Questionnaire extends Component {
 				let raw_matches = this.findFood(results.foods, item);
 				query_raw_matches = query_raw_matches.concat(raw_matches);
 				console.log(query_raw_matches) //check for no scientific name!!
+				this.obtainRecs(query_raw_matches);
 				this.setState({foods_eaten: query_raw_matches});
 			})
 			let searchURL = "https://api.nal.usda.gov/fdc/v1/foods/search?api_key=" + API_KEY;
@@ -167,17 +147,17 @@ class Questionnaire extends Component {
 		})
 	}
 
-	async obtainRecs() {
-		let foods_eaten = this.state.foods_eaten;
+	async obtainRecs(foods_eaten) {
+		// let foods_eaten = this.state.foods_eaten;
 		if (foods_eaten == null) {
 			return;
 		}
-		let foods_eaten_arr = new Set();
+		let foods_eaten_set = new Set();
 		for (let idx in foods_eaten) {
 			console.log(foods_eaten[idx]['description'])
-			foods_eaten_arr.add(foods_eaten[idx]['description'])
+			foods_eaten_set.add(foods_eaten[idx]['description'])
 		}
-		foods_eaten_arr = Array.from(foods_eaten_arr);
+		let foods_eaten_arr = Array.from(foods_eaten_set);
 		console.log(foods_eaten_arr)
 		let xhr = new XMLHttpRequest();
 		let data = {
@@ -187,8 +167,8 @@ class Questionnaire extends Component {
 		console.log(data)
 		xhr.addEventListener('load', () => {
 			console.log(xhr.responseText)
-			let results = JSON.parse(xhr.responseText);
-			let recs = Array.from(new Set(results));
+			let results_set = new Set(JSON.parse(xhr.responseText));
+			let recs = Array.from(results_set);
 			this.setState({recs: recs});
 
 		});
@@ -197,21 +177,55 @@ class Questionnaire extends Component {
 		console.log("hitting flask api with: " + data)
 		xhr.setRequestHeader("Content-Type", "application/json");    
 		xhr.send(JSON.stringify(data));
-		// const requestOptions = {
-		// 	method: 'POST',
-		// 	headers: { 'Content-Type': 'application/json' },
-		// 	body: JSON.stringify({
-		// 		action: "recommendation",
-		// 		foods: ["bananas", "spinach"]
-		// 	}),
-		// };
-		// fetch('http://localhost:5000', requestOptions)
-		// .then(response => {
-		// 	console.log(response.json());
-		// })
-		// const response = await fetch('http://localhost:5000', requestOptions);
-		// const response_data = await response.json();
-		// console.log(response_data)
+	}
+
+	renderForm() {
+		return(
+			<form className="form">
+				<label className="form_item">
+					First Name: 
+					<input className="form_input" type="text" name="first name" />
+					Last Name: 
+					<input className="form_input" type="text" name="last name" />
+				</label>
+				<br/>
+				<label className="form_item">
+					Sex: 
+					<select className="form_input">
+						<option>Male</option>
+						<option>Female</option>
+						<option>Prefer not to say</option>
+					</select>
+				</label>
+				<br/>
+				<label className="form_item">
+					Weight: 
+					<input className="form_input" type="text" name="weight" />
+					pounds
+				</label>
+				<br/>
+				<label className="form_item">
+					Height: 
+					<input type="text" className="form_input" name="height(ft)" />
+					feet
+					<input type="text" className="form_input" name="height(in)" />
+					inches
+				</label>
+				<br/>
+				<a href='#consumption'>
+					<button className="button">
+						Continue
+					</button>
+				</a>
+			</form>
+			
+			// <Form>
+			// 	<Form.Group controlId="firstName">
+			// 		<Form.Label>First name</Form.Label>
+			// 		<Form.Control type="first name" placeholder="First Name" />
+			// 	</Form.Group>
+			// </Form>
+		)
 	}
 	render() {
 		return (
@@ -220,49 +234,14 @@ class Questionnaire extends Component {
 					<header className="header">
 						Basic information:
 					</header>
-					<form className="form">
-						<label className="form_item">
-							First Name: 
-							<input type="text" name="first name" />
-						</label>
-						<br/>
-						<label className="form_item">
-							Last Name: 
-							<input type="text" name="last name" />
-						</label>
-						<br/>
-						<label className="form_item">
-							Sex: 
-							<select>
-								<option>Male</option>
-								<option>Female</option>
-								<option>Prefer not to say</option>
-							</select>
-						</label>
-						<br/>
-						<label className="form_item">
-							Weight: 
-							<input type="text" name="weight" />
-							pounds
-						</label>
-						<br/>
-						<label className="form_item">
-							Height: 
-							<input type="text" name="height(ft)" />
-							feet
-							<input type="text" name="height(in)" />
-							inches
-						</label>
-						<br/>
-						{/* <input className="form_item" type="submit" value="Submit" className="center_button"/> */}
-					</form>
-					<header className="header">
+					{this.renderForm()}
+					{/* <header className="header">
 						Keep scrolling to continue!
-					</header>
+					</header> */}
 				</div>
 
 				{/* Consumption */}
-				<div className='section'>
+				<div className='section' id={'consumption'}>
 					{/* Fruit */}
 					<header className="header">
 						Fruit Consumption:
@@ -281,38 +260,27 @@ class Questionnaire extends Component {
 					</p>
 					<Select isMulti options={VEGE_OPTIONS} onChange={(opt) => this.onMultiSelectChange(opt, CATEGORY_ENUMS.vegetables)} />
 					
-					{/* Protein */}
-					{/* <header className="header">
-						Protein Consumption:
-					</header>
-					<p>
-						Which of the following do you eat at least two to three times a week?
-					</p>
-					<Select isMulti options={PROTEIN_OPTIONS} onChange={(opt) => this.onMultiSelectChange(opt, CATEGORY_ENUMS.protein)} /> */}
-
 					{/* Submit button */}
 					<div className="center_button">
-						<button className="button" onClick={() => {this.search_DB()}}>
-							Submit
-						</button>
-						<button className="button" onClick={() => {this.obtainRecs()}}>
-							Flask
-						</button>
+						<a href="#results">
+							<button className="button" onClick={() => {this.search_DB()}}>
+								Submit
+							</button>
+						</a>
 					</div>
 				</div>
 
 				{/* Results */}
-				<div className='section'>
+				<div className='section' id={'results'}>
 					<header className="header">
 						Results
 					</header>
 					<div>
-						<div className="center_button">
-							{/* <button className="button" onClick={() => {query("plantain")}}> */}
+						{/* <div className="center_button">
 							<button className="button" onClick={() => {this.obtainRecs()}}>
 								Render Results
 							</button>
-						</div>
+						</div> */}
 						{this.renderRecs(this.state.foods_eaten)}
 					</div>
 				</div>

@@ -1,0 +1,14 @@
+
+.form_item
+{
+    color: black;
+    font-family: 'Open Sans', sans-serif;
+    margin: 15px;
+
+}
+
+.form_input
+{
+    margin: 0px 5px;
+    height: 25px;
+}
