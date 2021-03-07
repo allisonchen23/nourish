@@ -100,16 +100,23 @@ class Questionnaire extends Component {
 		
 		else {
 			let items = recs.map((item) => {
-				return <li key={item}>{item}</li>
+				return (
+					<div className="custom_button">
+					  <Button  variant='outline-secondary' disabled={true}>
+						<p className="button_text">{item}</p>
+					  </Button>
+					</div>
+				)
 			})
 			return(
 				<>
 					<p>
 						Based on the input provided, it would be beneficial to consume more of the following: 
 					</p>
-					<ul>
+					<div className="flex_container">
 						{items}
-					</ul>
+					</div>
+					<br/>
 					<Link to={{pathname: "/twitter",
 							   data: this.state.recs}}>
 						<div className="center_button">

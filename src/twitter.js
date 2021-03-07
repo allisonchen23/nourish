@@ -8,13 +8,22 @@ class Twitter extends Component{
     super();
 
     this.state = {
-      // tweet_ids: ['1361173965717131264', '1361124802891640833', '1361116828525678593', '1359665077188612096']
-      tweet_ids: null//['1365697918938841089', '1365683891906830347', '1365682716868509702', '1365476128123666433', '1365449830617780225', '1365440507439104002', '1365421474518093829', '1365421141851013127']
+      is_searching: false,
+      tweet_ids: null
     }
+  }
+
+  componentDidMount() {
+    window.scrollTo(0, 0);
+    // let data = this.props.location;
+    // if (data != undefined) {
+    //   this.loadTweetIDs(data);
+    // }
   }
 
   loadTweetIDs(search_terms)
   {
+    this.setState({is_searching: true});
     let xhr = new XMLHttpRequest();
 		let data = {
 			action: "twitter_search",
@@ -24,7 +33,7 @@ class Twitter extends Component{
 			console.log(xhr.responseText)
 			let results = JSON.parse(xhr.responseText);
 			console.log(results);
-			this.setState({tweet_ids: results});
+			this.setState({tweet_ids: results, is_searching: false});
 
 		});
 		let searchURL = "http://localhost:5000";
@@ -35,40 +44,43 @@ class Twitter extends Component{
   }
   renderButton(data) {
     if (this.state.tweet_ids == null) {
-      return (
-        <div className="center_button">
-						<Button className="button" variant='outline-secondary' onClick={() => {this.loadTweetIDs(data)}}>
-							<p className="button_text">Search Twitter for recipes!</p>
-						</Button>{' '}
-						</div>
-        // <div className="center_button">
-        //   <button className="button" onClick={() => {this.loadTweetIDs(data)}}>
-        //     Search Twitter!
-        //   </button>
-        // </div>
-      )
+      let is_searching = this.state.is_searching;
+        return (
+          <div className="center_button">
+              <Button className="button" variant='outline-secondary' disabled={is_searching} onClick={() => {this.loadTweetIDs(data)}}>
+                <p className="button_text">{is_searching ? 'Loading Results...' : 'Search Twitter for recipes!'}</p>
+              </Button>{' '}
+              </div>
+        )
+      
     }
     else {
       let search_items = data.map((item) => {
-				return <li key={item}>{item}</li>
+				//return <li key={item}>{item}</li>
+        return(
+          <div className="custom_button">
+            <Button  variant='outline-secondary' disabled={true}>
+              <p className="button_text">{item}</p>
+            </Button>
+          </div>
+        )
+          
 			})
       return (
         <>
           <p>
             Below are recipes related to: 
           </p>
-          <ul>
+          <div className="flex_container">
             {search_items}
-          </ul>
+          </div>
           </>
       )
     }
   }
   renderTweets() {
     if (this.state.tweet_ids == null) {
-			return(
-				<p>Please click the button to perform a search!</p>
-			)
+			return;
 		}
     // console.log(this.state.tweet_ids)
     let tweets = this.state.tweet_ids.map((tweet_id) => {
@@ -96,6 +108,7 @@ class Twitter extends Component{
             {/* <img src={logo} className="App-logo" alt="logo" /> */}
               Recipes Trending On Twitter
           </header>
+          <br/>
           {this.renderButton(data)}
           {/* <div className="center_button">
 						<button className="button" onClick={() => {this.loadTweetIDs(data)}}>
