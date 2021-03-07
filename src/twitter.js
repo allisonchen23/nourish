@@ -58,7 +58,7 @@ class Twitter extends Component{
       let search_items = data.map((item) => {
 				//return <li key={item}>{item}</li>
         return(
-          <div className="custom_button">
+          <div className="custom_button" key={item}>
             <Button  variant='outline-secondary' disabled={true}>
               <p className="button_text">{item}</p>
             </Button>
@@ -85,7 +85,7 @@ class Twitter extends Component{
     // console.log(this.state.tweet_ids)
     let tweets = this.state.tweet_ids.map((tweet_id) => {
       return (
-        <div class="grid_item">
+        <div className="grid_item" key={tweet_id}>
           <TwitterTweetEmbed tweetId={tweet_id} />
         </div>
       )

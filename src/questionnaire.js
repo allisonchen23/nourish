@@ -16,14 +16,23 @@ const FRUIT_OPTIONS = [
 	{value: 'apples', label: "Apples"},
 	{value: 'bananas', label: "Bananas"},
 	{value: 'blueberries', label: "Blueberries"},
-	{value: 'strawberries', label: "Strawberries"},
+	{value: 'clementines', label: "Clementines"},
 	{value: 'grapefruit', label: "Grapefruit"},
+	{value: 'mangos', label: "Mangos"},
+	{value: 'raspberries', label: "Raspberries"},
+	{value: 'strawberries', label: "Strawberries"},
+	{value: 'tomatoes', label: "Tomatoes"},
+	
 ];
 
 const VEGE_OPTIONS = [
+	{value: 'broccoli', label: "Broccoli"},
 	{value: 'cauliflower', label: "Cauliflower"},
 	{value: 'celery', label: "Celery"},
 	{value: 'carrots', label: "Carrots"},
+	{value: 'eggplant', label: "Eggplant"},
+	{value: 'mushrooms', label: "Mushrooms"},
+	{value: 'onions', label: "Onions"},
 	{value: 'spinach', label: "Spinach"},
 	{value: 'radishes', label: "Radishes"},
 ];
@@ -101,7 +110,7 @@ class Questionnaire extends Component {
 		else {
 			let items = recs.map((item) => {
 				return (
-					<div className="custom_button">
+					<div className="custom_button" key={item}>
 					  <Button  variant='outline-secondary' disabled={true}>
 						<p className="button_text">{item}</p>
 					  </Button>
@@ -253,9 +262,6 @@ class Questionnaire extends Component {
 						Basic information:
 					</header>
 					{this.renderForm()}
-					{/* <header className="header">
-						Keep scrolling to continue!
-					</header> */}
 				</div>
 
 				{/* Consumption */}
@@ -267,7 +273,10 @@ class Questionnaire extends Component {
 					<p>
 						Which of the following do you eat at least once a week?
 					</p>
-					<Select isMulti options={FRUIT_OPTIONS} onChange={(opt) => this.onMultiSelectChange(opt, CATEGORY_ENUMS.fruit)} />
+					<Select isMulti 
+						options={FRUIT_OPTIONS} 
+						closeMenuOnSelect={false}
+						onChange={(opt) => this.onMultiSelectChange(opt, CATEGORY_ENUMS.fruit)} />
 
 					{/* Vegetables */}
 					<header className="header">
@@ -276,7 +285,10 @@ class Questionnaire extends Component {
 					<p>
 						Which of the following do you eat at least once a week?
 					</p>
-					<Select isMulti options={VEGE_OPTIONS} onChange={(opt) => this.onMultiSelectChange(opt, CATEGORY_ENUMS.vegetables)} />
+					<Select isMulti 
+						options={VEGE_OPTIONS} 
+						closeMenuOnSelect={false}
+						onChange={(opt) => this.onMultiSelectChange(opt, CATEGORY_ENUMS.vegetables)} />
 					
 					{/* Submit button */}
 					<br/>
@@ -293,11 +305,6 @@ class Questionnaire extends Component {
 						Results
 					</header>
 					<div>
-						{/* <div className="center_button">
-							<button className="button" onClick={() => {this.obtainRecs()}}>
-								Render Results
-							</button>
-						</div> */}
 						{this.renderRecs(this.state.foods_eaten)}
 					</div>
 				</div>
